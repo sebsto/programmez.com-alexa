@@ -50,6 +50,7 @@ const MyNameIsIntentHandler = {
     return handlerInput.responseBuilder
       .speak(speechText)
       .withSimpleCard(CARD_TITLE, speechText)
+      .withShouldEndSession(true)
       .getResponse();
   },
 };

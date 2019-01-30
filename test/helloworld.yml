@@ -1,0 +1,47 @@
+#=====================================================================================================================
+#     ______    _ ____  ______        __  _
+#    / __/ /__ (_) / / /_  __/__ ___ / /_(_)__  ___ _
+#   _\ \/  '_// / / /   / / / -_|_-</ __/ / _ \/ _ `/
+#  /___/_/\_\/_/_/_/   /_/  \__/___/\__/_/_//_/\_, /
+#                                             /___/
+#
+# Created by Bespoken
+# Learn more at https://read.bespoken.io/unit-testing/getting-started/
+#
+# Skill name: "Audio Player Single Stream" by Amazon
+# Test scope: LaunchRequest (PlayAudio), AMAZON.PauseIntent, AMAZON.ResumeIntent, AMAZON.HelpIntent
+#             AMAZON.CancelIntent, AMAZON.StopIntent, AMAZON.StartOverIntent, AudioPlayer.PlaybackFinished
+#             AudioPlayer.PlaybackNearlyFinished, AudioPlayer.PlaybackFailed, SessionEndedRequest
+# Description: Tests single stream AudioPlayer skill
+#=====================================================================================================================
+
+---
+configuration:
+  locale: fr-FR
+  dynamo: mock
+  userId: mockUserID
+
+---
+- test: Launch request
+- LaunchRequest:
+  - response.outputSpeech.ssml: "Bienvenue sur Alexa, vous pouvez dire bonjour."
+  - response.card.title: "programmez.com"
+  - response.shouldEndSession: false
+- "bonjour":
+  - response.outputSpeech.ssml: "Bonjour, comment vous appelez-vous ?"
+  - response.shouldEndSession: false
+- "sébastien":
+  - response.outputSpeech.ssml: "Bienvenue sébastien, ravie de vous rencontrer"
+  - response.shouldEndSession: true
+
+---
+---
+- test: Intent request
+- "bonjour":
+  - response.outputSpeech.ssml: "Bonjour, comment vous appelez-vous ?"
+  - response.shouldEndSession: false
+- "sébastien":
+  - response.outputSpeech.ssml: "Bienvenue sébastien, ravie de vous rencontrer"
+  - response.shouldEndSession: true
+
+
