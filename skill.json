@@ -2,15 +2,15 @@
   "manifest": {
     "publishingInformation": {
       "locales": {
-        "en-US": {
-          "summary": "Sample Short Description",
+        "fr-FR": {
+          "summary": "Description courte",
           "examplePhrases": [
-            "Alexa open hello world",
-            "hello",
-            "help"
+            "Alexa ouvre démo programmez",
+            "bonjour",
+            "aide"
           ],
-          "name": "Hello World",
-          "description": "Sample Full Description"
+          "name": "skill-sample-nodejs-hello-world",
+          "description": "Description longue"
         }
       },
       "isAvailableWorldwide": true,
@@ -22,7 +22,7 @@
       "custom": {
         "endpoint": {
           "sourceDir": "lambda/custom",
-          "uri": "ask-custom-helloworld-default"
+          "uri": "ask-custom-skill-sample-nodejs-hello-world-default"
         }
       }
     },

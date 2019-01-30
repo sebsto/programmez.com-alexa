@@ -3,17 +3,19 @@
 
 const Alexa = require('ask-sdk-core');
 
+const CARD_TITLE = 'programmez.com';
+
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
-    const speechText = 'Welcome to the Alexa Skills Kit, you can say hello!';
+    const speechText = 'Bienvenue sur Alexa, vous pouvez dire bonjour.';
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard('Hello World', speechText)
+      .withSimpleCard(CARD_TITLE, speechText)
       .getResponse();
   },
 };
@@ -24,11 +26,30 @@ const HelloWorldIntentHandler = {
       && handlerInput.requestEnvelope.request.intent.name === 'HelloWorldIntent';
   },
   handle(handlerInput) {
-    const speechText = 'Hello World!';
+    const speechText = 'Bonjour, comment vous appelez-vous ?';
+    const reprompt =  'Quel est votre nom ?';
 
     return handlerInput.responseBuilder
       .speak(speechText)
-      .withSimpleCard('Hello World', speechText)
+      .reprompt(reprompt)
+      .withSimpleCard(CARD_TITLE, speechText)
+      .getResponse();
+  },
+};
+
+const MyNameIsIntentHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'MyNameIsIntent';
+  },
+  handle(handlerInput) {
+    // in real life, you should check "first_name" does exist in the request.  Beware of 'undefined'
+    const firstname = handlerInput.requestEnvelope.request.intent.slots.first_name.value;
+    const speechText = `Bienvenue ${firstname}, ravie de vous rencontrer`;
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard(CARD_TITLE, speechText)
       .getResponse();
   },
 };
@@ -39,12 +60,12 @@ const HelpIntentHandler = {
       && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
   },
   handle(handlerInput) {
-    const speechText = 'You can say hello to me!';
+    const speechText = 'Vous pouvez me dire bonjour.';
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard('Hello World', speechText)
+      .withSimpleCard(CARD_TITLE, speechText)
       .getResponse();
   },
 };
@@ -56,11 +77,11 @@ const CancelAndStopIntentHandler = {
         || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
   },
   handle(handlerInput) {
-    const speechText = 'Goodbye!';
+    const speechText = 'Au revoir !';
 
     return handlerInput.responseBuilder
       .speak(speechText)
-      .withSimpleCard('Hello World', speechText)
+      .withSimpleCard(CARD_TITLE, speechText)
       .getResponse();
   },
 };
@@ -84,8 +105,8 @@ const ErrorHandler = {
     console.log(`Error handled: ${error.message}`);
 
     return handlerInput.responseBuilder
-      .speak('Sorry, I can\'t understand the command. Please say again.')
-      .reprompt('Sorry, I can\'t understand the command. Please say again.')
+      .speak('Désolée, je ne comprends pas, pouvez-vous répéter ?')
+      .reprompt('Désolée, je ne comprends toujours pas, pouvez-vous répéter ?')
       .getResponse();
   },
 };
@@ -96,6 +117,7 @@ exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
     HelloWorldIntentHandler,
+    MyNameIsIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler

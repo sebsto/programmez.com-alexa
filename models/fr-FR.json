@@ -1,9 +1,8 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "hello world",
-      "intents": [
-        {
+      "invocationName": "démo programmer",
+      "intents": [{
           "name": "AMAZON.CancelIntent",
           "samples": []
         },
@@ -18,7 +17,19 @@
         {
           "name": "HelloWorldIntent",
           "samples": [
-            "hello"
+            "bonjour"
+          ]
+        },
+        {
+          "name": "MyNameIsIntent",
+          "slots": [{
+            "name": "first_name",
+            "type": "AMAZON.FirstName"
+          }],
+          "samples": [
+            "c'est {first_name}",
+            "{first_name}",
+            "je m'appelle {first_name}"
           ]
         }
       ]
